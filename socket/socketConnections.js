@@ -17,8 +17,8 @@ const configureSocketIO = (httpServer) => {
 
   io.on("connection", (socket) => {
     // this takes event from the client when users connect or login
-    socket.on("newUser", (userID) => {
-      addNewUsers(userID, socket.id);
+    socket.on("newUser", (userID, pushToken) => {
+      addNewUsers(userID, pushToken, socket.id);
     });
 
     // get the sent message to emit to the receiver
@@ -54,6 +54,24 @@ const configureSocketIO = (httpServer) => {
 
             // Encrypt the message
             const encryptedMessage = encryptMessage(message);
+
+            // for push notification
+            const message = {
+              to: receiver?.pushToken,
+              sound: "default",
+              title: sender.name,
+              body: encryptedMessage,
+            };
+
+            await fetch("https://exp.host/--/api/v2/push/send", {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Accept-encoding": "gzip, deflate",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(message),
+            });
 
             // save message to db
             await saveMessageToDB({

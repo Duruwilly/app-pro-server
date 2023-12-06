@@ -5,7 +5,7 @@ import {
   updatePremium,
   updateUser,
 } from "../controllers/UsersController.js";
-import { upload } from "../helpers/cloudinaryConfig.js";
+import { upload } from "../utils/cloudinaryConfig.js";
 
 const router = express.Router();
 

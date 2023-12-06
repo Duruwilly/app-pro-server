@@ -38,10 +38,10 @@ export const register = async (req, res, next) => {
 
     const access_token = jwt.sign(
       { id: newUser._id },
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: process.env.JWT_EXPIRATION,
-      }
+      process.env.JWT_SECRET_KEY
+      // {
+      //   expiresIn: process.env.JWT_EXPIRATION,
+      // }
     );
     const refreshToken = jwt.sign(
       { id: newUser._id },
@@ -84,10 +84,10 @@ export const login = async (req, res, next) => {
 
     const access_token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: process.env.JWT_EXPIRATION,
-      }
+      process.env.JWT_SECRET_KEY
+      // {
+      //   expiresIn: process.env.JWT_EXPIRATION,
+      // }
     );
 
     const { password, ...otherDetails } = user._doc;
