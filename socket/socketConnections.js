@@ -7,6 +7,7 @@ import {
 } from "../controllers/MessagesController.js";
 import Users from "../models/Users.js";
 import { encryptMessage } from "../utils/helpers.js";
+import { sendPushNotification } from "../utils/pushNotification.js";
 
 const configureSocketIO = (httpServer) => {
   const io = new Server(httpServer, {
@@ -56,21 +57,11 @@ const configureSocketIO = (httpServer) => {
             const encryptedMessage = encryptMessage(message);
 
             // for push notification
-            const message = {
+            await sendPushNotification({
               to: receiver?.pushToken,
               sound: "default",
-              title: sender.name,
-              body: encryptedMessage,
-            };
-
-            await fetch("https://exp.host/--/api/v2/push/send", {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Accept-encoding": "gzip, deflate",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(message),
+              title: sender?.name,
+              body: message,
             });
 
             // save message to db
