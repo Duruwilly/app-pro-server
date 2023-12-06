@@ -1,4 +1,5 @@
 export const sendPushNotification = async (parameters) => {
+  console.log(parameters);
   try {
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
