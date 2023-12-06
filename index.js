@@ -14,10 +14,10 @@ import transactionsRoutes from "./routes/transactions.js";
 dotenv.config();
 
 const app = express();
-const httpServer = createServer(app); // for socket
+const server = createServer(app);
 
 const port = process.env.PORT || 8080;
-const socketPort = process.env.SOCKET_PORT || 8200;
+// const socketPort = process.env.SOCKET_PORT || 8200;
 
 app.use(cors());
 app.use(cookieParser()); // Middleware to parse cookies sent by the client in the HTTP request headers
@@ -42,14 +42,14 @@ app.use((err, req, res, next) => {
   });
 });
 
-configureSocketIO(httpServer);
+configureSocketIO(server);
 
 // only run the server if the database is connected
 const start = async () => {
   try {
     await connectDB();
-    httpServer.listen(socketPort);
-    app.listen(port, () => {
+    // httpServer.listen(socketPort);
+    server.listen(port, () => {
       console.log(`port is listening on port ${port}...`);
     });
   } catch (error) {
