@@ -80,7 +80,6 @@ export const addPushToken = async (userId, pushToken) => {
 };
 
 export const removePushToken = async (req, res, next) => {
-  console.log(req.body);
   try {
     const user = await Users.findById(req.body.userId);
     if (user) {
@@ -88,9 +87,12 @@ export const removePushToken = async (req, res, next) => {
         (token) => token !== req.body.pushToken
       );
       await user.save();
+      return res.status(201).json({
+        status: "success",
+      });
     }
   } catch (error) {
-    // Handle errors
+    console.log(error);
   }
 };
 
