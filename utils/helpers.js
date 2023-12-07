@@ -1,13 +1,13 @@
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 import nodemailer from "nodemailer";
 
-export const encryptMessage = (message) => {
-  const encrypted = CryptoJS.AES.encrypt(
-    message,
-    process.env.MESSAGE_SECRET_KEY
-  ).toString();
-  return encrypted;
-};
+// export const encryptMessage = (message) => {
+//   const encrypted = CryptoJS.AES.encrypt(
+//     message,
+//     process.env.MESSAGE_SECRET_KEY
+//   ).toString();
+//   return encrypted;
+// };
 
 export const validatePassword = (password) => {
   // Regular expressions to match password criteria

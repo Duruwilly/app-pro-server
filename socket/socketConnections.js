@@ -6,7 +6,7 @@ import {
   saveMessageToDB,
 } from "../controllers/MessagesController.js";
 import Users from "../models/Users.js";
-import { encryptMessage } from "../utils/helpers.js";
+// import { encryptMessage } from "../utils/helpers.js";
 import { sendPushNotification } from "../utils/pushNotification.js";
 
 const configureSocketIO = (httpServer) => {
@@ -54,22 +54,22 @@ const configureSocketIO = (httpServer) => {
             receiverSocketId = receiver?.socketId;
 
             // Encrypt the message
-            const encryptedMessage = encryptMessage(message);
+            // const encryptedMessage = encryptMessage(message);
 
             // for push notification
-            // sendPushNotification({
-            //   to: receiver?.pushToken,
-            //   sound: "default",
-            //   title: sender?.name,
-            //   body: message,
-            // });
+            sendPushNotification({
+              to: receiver?.pushToken,
+              sound: "default",
+              title: sender?.name,
+              body: message,
+            });
 
             // save message to db
             await saveMessageToDB({
               receiverId,
               createdAt,
               senderPhoneNumber,
-              message: encryptedMessage,
+              message,
               isMessageReceived: true,
               isMessageSent: false,
               senderId,
@@ -89,7 +89,7 @@ const configureSocketIO = (httpServer) => {
                 receiverId,
                 senderId,
                 createdAt,
-                message: encryptedMessage,
+                message,
                 isMessageReceived: true,
                 isMessageSent: false,
                 isRead,
@@ -128,13 +128,13 @@ const configureSocketIO = (httpServer) => {
           const senderSocketId = sender?.socketId;
 
           // Encrypt the message
-          const encryptedMessage = encryptMessage(message);
+          // const encryptedMessage = encryptMessage(message);
 
           await saveMessageToDB({
             receiverId,
             createdAt,
             senderPhoneNumber,
-            message: encryptedMessage,
+            message,
             isMessageReceived: false,
             isMessageSent: true,
             senderId,
@@ -151,7 +151,7 @@ const configureSocketIO = (httpServer) => {
             receiverId,
             senderId,
             createdAt,
-            message: encryptedMessage,
+            message,
             isMessageReceived: false,
             isMessageSent: true,
             online: receiver?.online,
