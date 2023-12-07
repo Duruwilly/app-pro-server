@@ -55,7 +55,7 @@ export const register = async (req, res, next) => {
     );
     console.log("new user", newUser);
     newUser.refreshToken = refreshToken;
-    await addPushToken(newUser._id, newUser.pushTokens);
+    await addPushToken(newUser._id, req.body.pushTokens);
     await newUser.save();
 
     return res.status(201).json({
@@ -79,10 +79,12 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const user = await Users.findOne({ mobileNumber: req?.body.mobileNumber });
+    const user = await Users.findOne({
+      mobileNumber: req?.body?.loginFormData.mobileNumber,
+    });
     if (!user) return next(new CustomError("User not found", 404));
     const isPasswordCorrect = await bcrypt.compare(
-      req?.body.password,
+      req?.body?.loginFormData?.password,
       user.password
     );
     console.log(user);
