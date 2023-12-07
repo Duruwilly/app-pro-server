@@ -60,7 +60,7 @@ const configureSocketIO = (httpServer) => {
 
             // for push notification
             await sendPushNotification({
-              to: receiver?.pushToken,
+              to: "ExponentPushToken[dQnueKHxCrsLKRm4Kjres7]",
               sound: "default",
               title: sender?.name,
               body: message,
