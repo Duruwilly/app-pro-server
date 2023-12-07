@@ -53,9 +53,9 @@ export const register = async (req, res, next) => {
       { id: newUser._id },
       process.env.JWT_REFRESH_SECRET_KEY
     );
-    console.log("new user", newUser);
+    // console.log("new user", newUser);
     newUser.refreshToken = refreshToken;
-    await addPushToken(newUser._id, req.body.pushTokens);
+    addPushToken(newUser._id, req.body.pushTokens);
     await newUser.save();
 
     return res.status(201).json({
