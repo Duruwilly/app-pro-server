@@ -19,7 +19,6 @@ const configureSocketIO = (httpServer) => {
   io.on("connection", (socket) => {
     // this takes event from the client when users connect or login
     socket.on("newUser", (userID, pushToken) => {
-      console.log("pushToken", pushToken, userID);
       addNewUsers(userID, pushToken, socket.id);
     });
 
@@ -60,7 +59,7 @@ const configureSocketIO = (httpServer) => {
 
             // for push notification
             await sendPushNotification({
-              to: "ExponentPushToken[dQnueKHxCrsLKRm4Kjres7]",
+              to: receiver?.pushToken,
               sound: "default",
               title: sender?.name,
               body: message,

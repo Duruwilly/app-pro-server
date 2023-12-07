@@ -1,16 +1,14 @@
 let usersNotification = [];
 // add the user to usersNotification array when a new user connect or login from the frontend
 export const addNewUsers = (userID, pushToken, socketId) => {
-  console.log("addNewUsersUtil", userID, socketId, pushToken);
   // if (!usersNotification.some((user) => user.userID === userID)) {
   usersNotification.push({
     userID,
-    pushToken: `${pushToken}`,
+    pushToken,
     socketId,
     online: true,
   });
   // }
-  console.log("[]", usersNotification);
 };
 
 // remove the user from the array when the user disconnect or logout from the frontend
