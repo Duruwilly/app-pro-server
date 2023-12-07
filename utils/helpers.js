@@ -68,10 +68,8 @@ export const sendEmail = async (options) => {
 };
 
 export const addPushToken = async (userId, pushToken) => {
-  console.log(userId, pushToken);
   try {
     const user = await Users.findById(userId);
-    console.log("userToken", user);
     if (user) {
       user.pushTokens.push(pushToken);
       await user.save();
@@ -81,11 +79,13 @@ export const addPushToken = async (userId, pushToken) => {
   }
 };
 
-export const removePushToken = async (userId, pushToken) => {
+export const removePushToken = async (req, res, next) => {
   try {
-    const user = await Users.findById(userId);
+    const user = await Users.findById(req.body.userId);
     if (user) {
-      user.pushTokens = user.pushTokens.filter((token) => token !== pushToken);
+      user.pushTokens = user.pushTokens.filter(
+        (token) => token !== req.body.pushToken
+      );
       await user.save();
     }
   } catch (error) {

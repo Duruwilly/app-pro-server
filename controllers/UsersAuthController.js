@@ -53,7 +53,6 @@ export const register = async (req, res, next) => {
       { id: newUser._id },
       process.env.JWT_REFRESH_SECRET_KEY
     );
-    // console.log("new user", newUser);
     newUser.refreshToken = refreshToken;
     addPushToken(newUser._id, req.body.pushTokens);
     await newUser.save();
@@ -87,7 +86,6 @@ export const login = async (req, res, next) => {
       req?.body?.loginFormData?.password,
       user.password
     );
-    console.log(user);
     if (!isPasswordCorrect)
       return next(new CustomError("Wrong password or email", 404));
 
