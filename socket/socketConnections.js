@@ -19,7 +19,7 @@ const configureSocketIO = (httpServer) => {
   io.on("connection", (socket) => {
     // this takes event from the client when users connect or login
     socket.on("newUser", (userID, pushToken) => {
-      // console.log(pushToken, userID);
+      console.log("pushToken", pushToken, userID);
       addNewUsers(userID, pushToken, socket.id);
     });
 
@@ -52,7 +52,7 @@ const configureSocketIO = (httpServer) => {
 
             // get  the receiver socket id using the receiver id
             const receiver = getUser(receiverId);
-            console.log(receiver);
+            console.log("receiver", receiver);
             receiverSocketId = receiver?.socketId;
 
             // Encrypt the message
