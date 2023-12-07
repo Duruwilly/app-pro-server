@@ -52,7 +52,7 @@ const configureSocketIO = (httpServer) => {
             // get  the receiver socket id using the receiver id
             const receiver = getUser(receiverId);
             // console.log("receiver", receiver);
-            await getUserPushTokens(receiverId);
+            const receiverToken = await getUserPushTokens(receiverId);
             receiverSocketId = receiver?.socketId;
 
             // Encrypt the message
@@ -60,7 +60,7 @@ const configureSocketIO = (httpServer) => {
 
             // for push notification
             sendPushNotification({
-              to: receiver?.pushToken,
+              to: receiverToken,
               sound: "default",
               title: sender?.name,
               body: message,

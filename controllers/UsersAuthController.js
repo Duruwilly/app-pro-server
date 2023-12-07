@@ -104,7 +104,7 @@ export const login = async (req, res, next) => {
     //   })
     //   .status(200)
     //   .json({ msg: "logged in successfully", ...otherDetails });
-    await addPushToken(user._id, user.pushTokens);
+    await addPushToken(user._id, req?.body?.pushTokens);
     return res.status(200).json({
       status: "success",
       message: "logged in successfully",
