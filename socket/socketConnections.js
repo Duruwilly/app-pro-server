@@ -18,8 +18,8 @@ const configureSocketIO = (httpServer) => {
 
   io.on("connection", (socket) => {
     // this takes event from the client when users connect or login
-    socket.on("newUser", (userID, pushToken) => {
-      addNewUsers(userID, pushToken, socket.id);
+    socket.on("newUser", (userID) => {
+      addNewUsers(userID, socket.id);
     });
 
     // get the sent message to emit to the receiver
@@ -67,23 +67,6 @@ const configureSocketIO = (httpServer) => {
               body: message,
             });
 
-            // save message to db
-            await saveMessageToDB({
-              receiverId,
-              createdAt,
-              senderPhoneNumber,
-              message: encryptedMessage,
-              isMessageReceived: true,
-              isMessageSent: false,
-              senderId,
-              senderName: sender.name,
-              socketId,
-              online: receiver?.online,
-              isRead,
-              uniqueMessageId,
-              location,
-            });
-
             // emit to the receiver
             if (sender) {
               io.to(receiverSocketId).emit("getNotification", {
@@ -100,12 +83,24 @@ const configureSocketIO = (httpServer) => {
                 location,
               });
             }
-          } catch (error) {
-            io.to(receiverSocketId).emit("errorNotification", {
-              message: "An error occurred while processing your request",
-              // code: 500,
+
+            // save message to db
+            await saveMessageToDB({
+              receiverId,
+              createdAt,
+              senderPhoneNumber,
+              message: encryptedMessage,
+              isMessageReceived: true,
+              isMessageSent: false,
+              senderId,
+              senderName: sender.name,
+              socketId,
+              online: receiver?.online,
+              isRead,
+              uniqueMessageId,
+              location,
             });
-          }
+          } catch (error) {}
         }
       }
     );
