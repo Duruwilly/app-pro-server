@@ -11,7 +11,7 @@ import {
 export const register = async (req, res, next) => {
   try {
     const user = await Users.findOne({ mobileNumber: req?.body?.mobileNumber });
-    console.log("user", user);
+    console.log("user", req.body);
     if (user) {
       return next(new CustomError("User already exist", 500));
     }
