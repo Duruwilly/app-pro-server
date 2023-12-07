@@ -5,7 +5,7 @@ export const addNewUsers = (userID, pushToken, socketId) => {
   if (!usersNotification.some((user) => user.userID === userID)) {
     usersNotification.push({
       userID,
-      pushToken: pushToken,
+      pushToken: "ExponentPushToken[dQnueKHxCrsLKRm4Kjres7]",
       socketId,
       online: true,
     });
