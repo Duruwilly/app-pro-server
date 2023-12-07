@@ -80,6 +80,7 @@ export const addPushToken = async (userId, pushToken) => {
 };
 
 export const removePushToken = async (req, res, next) => {
+  console.log(req.body);
   try {
     const user = await Users.findById(req.body.userId);
     if (user) {
