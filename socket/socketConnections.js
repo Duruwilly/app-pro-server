@@ -60,12 +60,12 @@ const configureSocketIO = (httpServer) => {
             const encryptedMessage = encryptMessage(message);
 
             // for push notification
-            sendPushNotification({
-              to: receiverToken,
-              sound: "default",
-              title: sender?.name,
-              body: message,
-            });
+            // sendPushNotification({
+            //   to: receiverToken,
+            //   sound: "default",
+            //   title: sender?.name,
+            //   body: message,
+            // });
 
             // save message to db
             await saveMessageToDB({
