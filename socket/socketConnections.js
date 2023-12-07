@@ -57,7 +57,7 @@ const configureSocketIO = (httpServer) => {
             // const encryptedMessage = encryptMessage(message);
 
             // for push notification
-            sendPushNotification({
+            await sendPushNotification({
               to: receiver?.pushToken,
               sound: "default",
               title: sender?.name,
