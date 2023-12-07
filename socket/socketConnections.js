@@ -19,6 +19,7 @@ const configureSocketIO = (httpServer) => {
   io.on("connection", (socket) => {
     // this takes event from the client when users connect or login
     socket.on("newUser", (userID, pushToken) => {
+      console.log(pushToken);
       addNewUsers(userID, pushToken, socket.id);
     });
 
