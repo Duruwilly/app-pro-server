@@ -3,7 +3,12 @@ let usersNotification = [];
 export const addNewUsers = (userID, pushToken, socketId) => {
   console.log("addNewUsersUtil", userID, socketId, `${pushToken}`);
   if (!usersNotification.some((user) => user.userID === userID)) {
-    usersNotification.push({ userID, pushToken, socketId, online: true });
+    usersNotification.push({
+      userID,
+      pushToken: pushToken,
+      socketId,
+      online: true,
+    });
   }
   console.log("[]", usersNotification);
 };
