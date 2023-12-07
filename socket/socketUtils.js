@@ -19,3 +19,5 @@ export const getUser = (userID) => {
   //   console.log(usersNotification);
   return usersNotification.find((user) => user.userID === userID);
 };
+
+console.log("[]", usersNotification);
