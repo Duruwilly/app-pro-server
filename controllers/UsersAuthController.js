@@ -10,14 +10,15 @@ import {
 
 export const register = async (req, res, next) => {
   try {
-    const user = await Users.findOne({ mobileNumber: req?.body?.mobileNumber });
-    console.log("user", req.body);
+    const user = await Users.findOne({
+      mobileNumber: req?.body?.registerFormData?.mobileNumber,
+    });
     if (user) {
       return next(new CustomError("User already exist", 500));
     }
 
     // Validate password
-    if (!validatePassword(req?.body.password)) {
+    if (!validatePassword(req?.body?.registerFormData?.password)) {
       return next(
         new CustomError(
           "Password must be 6 characters or more and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
@@ -27,14 +28,14 @@ export const register = async (req, res, next) => {
     }
 
     const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req?.body.password, salt);
+    const hash = bcrypt.hashSync(req?.body?.registerFormData?.password, salt);
 
     const newUser = new Users({
-      fullName: req?.body?.fullName,
+      fullName: req?.body?.registerFormData?.fullName,
       //   country: req.body.country,
-      email: req?.body?.email,
+      email: req?.body?.registerFormData?.email,
       password: hash,
-      mobileNumber: req?.body?.mobileNumber,
+      mobileNumber: req?.body?.registerFormData?.mobileNumber,
       isPremium: false,
       emergencyMessage:
         "Please help! I need immediate assistance. My current location is below. Please respond or send help ASAP!!",
