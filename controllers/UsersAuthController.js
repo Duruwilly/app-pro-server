@@ -11,6 +11,7 @@ import {
 export const register = async (req, res, next) => {
   try {
     const user = await Users.findOne({ mobileNumber: req?.body?.mobileNumber });
+    console.log("user", user);
     if (user) {
       return next(new CustomError("User already exist", 500));
     }
@@ -51,7 +52,7 @@ export const register = async (req, res, next) => {
       { id: newUser._id },
       process.env.JWT_REFRESH_SECRET_KEY
     );
-    console.log(newUser);
+    console.log("new user", newUser);
     newUser.refreshToken = refreshToken;
     await addPushToken(newUser._id, newUser.pushTokens);
     await newUser.save();
