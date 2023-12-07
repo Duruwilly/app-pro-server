@@ -60,6 +60,11 @@ const UserSchema = new mongoose.Schema(
     emergencyMessageEditCount: {
       type: Number,
     },
+    pushTokens: [
+      {
+        type: String,
+      },
+    ],
   },
   {
     timestamps: true,

@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import Users from "../models/Users.js";
-import { CustomError, validatePassword } from "../utils/helpers.js";
+import {
+  CustomError,
+  addPushToken,
+  validatePassword,
+} from "../utils/helpers.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -47,8 +51,9 @@ export const register = async (req, res, next) => {
       { id: newUser._id },
       process.env.JWT_REFRESH_SECRET_KEY
     );
-
+    console.log(newUser);
     newUser.refreshToken = refreshToken;
+    await addPushToken(newUser._id, newUser.pushTokens);
     await newUser.save();
 
     return res.status(201).json({
@@ -74,11 +79,11 @@ export const login = async (req, res, next) => {
   try {
     const user = await Users.findOne({ mobileNumber: req?.body.mobileNumber });
     if (!user) return next(new CustomError("User not found", 404));
-
     const isPasswordCorrect = await bcrypt.compare(
       req?.body.password,
       user.password
     );
+    console.log(user);
     if (!isPasswordCorrect)
       return next(new CustomError("Wrong password or email", 404));
 
@@ -97,6 +102,7 @@ export const login = async (req, res, next) => {
     //   })
     //   .status(200)
     //   .json({ msg: "logged in successfully", ...otherDetails });
+    await addPushToken(user._id, user.pushTokens);
     return res.status(200).json({
       status: "success",
       message: "logged in successfully",

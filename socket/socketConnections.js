@@ -6,7 +6,7 @@ import {
   saveMessageToDB,
 } from "../controllers/MessagesController.js";
 import Users from "../models/Users.js";
-import { encryptMessage } from "../utils/helpers.js";
+import { encryptMessage, getUserPushTokens } from "../utils/helpers.js";
 import { sendPushNotification } from "../utils/pushNotification.js";
 
 const configureSocketIO = (httpServer) => {
@@ -51,7 +51,8 @@ const configureSocketIO = (httpServer) => {
 
             // get  the receiver socket id using the receiver id
             const receiver = getUser(receiverId);
-            console.log("receiver", receiver);
+            // console.log("receiver", receiver);
+            await getUserPushTokens(receiverId);
             receiverSocketId = receiver?.socketId;
 
             // Encrypt the message

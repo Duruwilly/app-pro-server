@@ -1,5 +1,6 @@
 import CryptoJS from "crypto-js";
 import nodemailer from "nodemailer";
+import Users from "../models/Users.js";
 
 export const encryptMessage = (message) => {
   // const key = CryptoJS.enc.Utf8.parse(process.env.MESSAGE_SECRET_KEY);
@@ -48,7 +49,7 @@ export class CustomError extends Error {
   status;
 }
 
-const sendEmail = async (options) => {
+export const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
     service: process.env.SERVICE,
     auth: {
@@ -65,4 +66,40 @@ const sendEmail = async (options) => {
   };
   await transporter.sendMail(mailOptions);
 };
-export default sendEmail;
+
+export const addPushToken = async (userId, pushToken) => {
+  try {
+    const user = await Users.findById(userId);
+    if (user) {
+      user.pushTokens.push(pushToken);
+      await user.save();
+    }
+  } catch (error) {
+    // Handle errors
+  }
+};
+
+export const removePushToken = async (userId, pushToken) => {
+  try {
+    const user = await Users.findById(userId);
+    if (user) {
+      user.pushTokens = user.pushTokens.filter((token) => token !== pushToken);
+      await user.save();
+    }
+  } catch (error) {
+    // Handle errors
+  }
+};
+
+export const getUserPushTokens = async (userId) => {
+  try {
+    const user = await Users.findById(userId);
+    if (user) {
+      return user.pushTokens;
+    }
+    return [];
+  } catch (error) {
+    // Handle errors
+    return [];
+  }
+};
