@@ -68,9 +68,9 @@ export const sendEmail = async (options) => {
 };
 
 export const addPushToken = async (userId, pushToken) => {
-  console.log("pushToken", userId, pushToken);
   try {
     const user = await Users.findById(userId);
+    console.log("userToken", user);
     if (user) {
       user.pushTokens.push(pushToken);
       await user.save();
