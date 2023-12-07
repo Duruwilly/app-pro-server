@@ -1,12 +1,12 @@
 import CryptoJS from "crypto-js";
 import nodemailer from "nodemailer";
 
-export const encryptMessage = (message) => {
-  // Convert the key to a WordArray (CryptoJS format)
-  const key = CryptoJS.enc.Utf8.parse(process.env.MESSAGE_SECRET_KEY);
-  const encrypted = CryptoJS.AES.encrypt(message, key).toString();
-  return encrypted;
-};
+// export const encryptMessage = (message) => {
+//   // Convert the key to a WordArray (CryptoJS format)
+//   const key = CryptoJS.enc.Utf8.parse(process.env.MESSAGE_SECRET_KEY);
+//   const encrypted = CryptoJS.AES.encrypt(message, key).toString();
+//   return encrypted;
+// };
 
 export const validatePassword = (password) => {
   // Regular expressions to match password criteria
