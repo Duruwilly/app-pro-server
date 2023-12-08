@@ -1,8 +1,8 @@
-let usersNotification = [];
-// add the user to usersNotification array when a new user connect or login from the frontend
+let usersMessages = [];
+// add the user to usersMessages array when a new user connect or login from the frontend
 export const addNewUsers = (userID, socketId) => {
-  if (!usersNotification.some((user) => user.userID === userID)) {
-    usersNotification.push({
+  if (!usersMessages.some((user) => user.userID === userID)) {
+    usersMessages.push({
       userID,
       socketId,
       online: true,
@@ -12,13 +12,11 @@ export const addNewUsers = (userID, socketId) => {
 
 // remove the user from the array when the user disconnect or logout from the frontend
 export const removeUser = (socketId) => {
-  usersNotification = usersNotification.filter(
-    (user) => user.socketId !== socketId
-  );
+  usersMessages = usersMessages.filter((user) => user.socketId !== socketId);
 };
 
 // this get a particular user and return that user
 export const getUser = (userID) => {
-  //   console.log(usersNotification);
-  return usersNotification.find((user) => user.userID === userID);
+  //   console.log(usersMessages);
+  return usersMessages.find((user) => user.userID === userID);
 };

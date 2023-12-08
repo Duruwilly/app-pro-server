@@ -69,7 +69,7 @@ const configureSocketIO = (httpServer) => {
 
             // emit to the receiver
             if (sender) {
-              io.to(receiverSocketId).emit("getNotification", {
+              io.to(receiverSocketId).emit("getMessage", {
                 senderPhoneNumber,
                 senderName: sender?.name,
                 receiverId,
