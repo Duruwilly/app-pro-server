@@ -21,13 +21,6 @@ export const addContact = async (req, res, next) => {
       );
     }
 
-    // const existingContact = await Contacts.findOne({
-    //   phoneNumber: newContact.phoneNumber.replace(/\s/g, ""),
-    // });
-
-    // if (existingContact) {
-    //   return next(new CustomError("contact already added", 404));
-    // } else {
     const savedContact = await newContact.save();
 
     return res.status(201).json({
