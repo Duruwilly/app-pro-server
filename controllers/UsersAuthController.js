@@ -38,7 +38,7 @@ export const register = async (req, res, next) => {
       mobileNumber: req?.body?.registerFormData?.mobileNumber,
       isPremium: false,
       emergencyMessage:
-        "Please help! I need immediate assistance. My current location is below. Please respond or send help ASAP!!",
+        "Please help! I need immediate assistance. Please track my current location below and send help ASAP!!",
       emergencyMessageEditCount: 0,
     });
 
