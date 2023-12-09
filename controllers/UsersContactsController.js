@@ -44,13 +44,13 @@ export const deleteContact = async (req, res, next) => {
       return next(new CustomError("contact not found", 404));
     }
     // delete the messages associated with the contact
-    await deleteMessages(
-      req,
-      res,
-      next,
-      req.params.contactId,
-      req.params.contactAuthId
-    );
+    // await deleteMessages(
+    //   req,
+    //   res,
+    //   next,
+    //   req.params.contactId,
+    //   req.params.contactAuthId
+    // );
     return res
       .status(200)
       .json({ status: "success", message: "contact deleted" });

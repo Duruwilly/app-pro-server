@@ -45,9 +45,9 @@ export const getSentMessages = async (req, res, next) => {
 export const deleteMessages = async (
   req,
   res,
-  next,
-  contactId,
-  contactAuthId
+  next
+  // contactId,
+  // contactAuthId
 ) => {
   try {
     // const messagesToDelete = await Messages.find({
@@ -59,19 +59,22 @@ export const deleteMessages = async (
     const deleteCriteria = {
       $or: [
         {
-          senderId: contactAuthId,
+          senderId: req.params.contactAuthId,
           receiverId: req.params.id,
           isMessageReceived: true,
         },
         {
           senderId: req.params.id,
-          receiverId: contactAuthId,
+          receiverId: req.params.contactAuthId,
           isMessageSent: true,
         },
       ],
     };
 
     await Messages.deleteMany(deleteCriteria);
+    return res
+      .status(200)
+      .json({ status: "success", message: "messages deleted" });
   } catch (error) {}
 };
 
