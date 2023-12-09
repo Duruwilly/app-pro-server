@@ -71,7 +71,7 @@ export const deleteMessages = async (
       ],
     };
 
-    return await Messages.deleteMany(deleteCriteria);
+    await Messages.deleteMany(deleteCriteria);
   } catch (error) {}
 };
 
@@ -101,20 +101,19 @@ export const deleteMessage = async (req, res, next) => {
 };
 
 // mark as read message func
-export const markAsReadMessage = async (messageId, receiverId) => {
+export const markAsReadMessage = async (messageIds, receiverId) => {
   try {
-    // console.log(messageId);
-    const messagesToUpdateAsRead = await Messages.find({
-      uniqueMessageId: messageId,
-      receiverId: receiverId,
-    });
-    for (const message of messagesToUpdateAsRead) {
-      await Messages.findByIdAndUpdate(
-        message._id,
-        { $set: { isRead: true } },
-        { new: true }
-      );
+    const updateResult = await Messages.updateMany(
+      {
+        uniqueMessageId: { $in: messageIds },
+        receiverId: receiverId,
+      },
+      { $set: { isRead: true } }
+    );
+    if (updateResult.acknowledged) {
+      console.log("Messages marked as read");
+    } else {
+      console.log("Failed to mark messages as read");
     }
-    return messagesToUpdateAsRead;
   } catch (error) {}
 };

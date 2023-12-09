@@ -164,59 +164,21 @@ const configureSocketIO = (httpServer) => {
     // get the message and mark it as read then emit to both sender and receiver
     socket?.on(
       "markAsReadMessageData",
-      async ({
-        _id,
-        createdAt,
-        senderPhoneNumber,
-        message,
-        isMessageReceived,
-        isMessageSent,
-        senderName,
-        online,
-        senderId,
-        receiverId,
-        isRead,
-        location,
-        uniqueMessageId,
-      }) => {
+      async ({ senderId, receiverId, uniqueMessageIds }) => {
         const receiver = getUser(receiverId);
         const sender = getUser(senderId);
-        // console.log("isRead");
-        await markAsReadMessage(uniqueMessageId, receiverId);
-
-        // if (!isRead) {
+        await markAsReadMessage(uniqueMessageIds, receiverId);
         io.to(sender?.socketId).emit("getMarkAsReadMessage", {
-          _id,
-          createdAt,
-          senderPhoneNumber,
-          message,
-          isMessageReceived: false,
-          isMessageSent: true,
-          senderName,
-          online,
           senderId,
           receiverId,
-          isRead: true,
-          uniqueMessageId,
-          location,
+          uniqueMessageIds,
         });
 
         io.to(receiver?.socketId).emit("getMarkAsReadMessage", {
-          _id,
-          createdAt,
-          senderPhoneNumber,
-          message,
-          isMessageReceived: true,
-          isMessageSent: false,
-          senderName,
-          online,
           senderId,
           receiverId,
-          isRead: true,
-          uniqueMessageId,
-          location,
+          uniqueMessageIds,
         });
-        // }
       }
     );
 
