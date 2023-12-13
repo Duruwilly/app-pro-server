@@ -122,8 +122,9 @@ export const login = async (req, res, next) => {
 };
 
 export const forgotpassword = async (req, res, next) => {
-  const user = await Users.findOne({ email: req.body.email });
-  if (!user) return next(new CustomError("No user with that email", 404));
+  const user = await Users.findOne({ mobileNumber: req.body.mobileNumber });
+  if (!user)
+    return next(new CustomError("No user with that phone number", 404));
   const resetToken = user.createResetPassword();
 
   await user.save({ validateBeforeSave: false });
@@ -149,10 +150,7 @@ export const forgotpassword = async (req, res, next) => {
     user.resetPasswordExpires = undefined;
     await user.save({ validateBeforeSave: false });
     return next(
-      new CustomError(
-        "There was an error sending email, please try again later",
-        500
-      )
+      new CustomError("An error occured, please try again later", 500)
     );
   }
 };
@@ -179,12 +177,12 @@ export const resetpassword = async (req, res, next) => {
     resetPasswordToken: hashedToken,
     resetPasswordExpires: { $gt: Date.now() },
   });
-  if (!user) return next(CustomError("Token is invalid or expired", 400));
+  if (!user) return next(new CustomError("Token is invalid or expired", 400));
 
   // VALIDATE NEW PASSWORD
   if (!validatePassword(req.body.password)) {
     return next(
-      CustomError("Password does not meet security requirements", 400)
+      new CustomError("Password does not meet security requirements", 400)
     );
   }
 
