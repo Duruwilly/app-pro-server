@@ -55,7 +55,6 @@ const configureSocketIO = (httpServer) => {
 
             // get the receiver push token
             const receiverToken = await getUserPushTokens(receiverId);
-
             // Encrypt the message
             const encryptedMessage = encryptMessage(message);
 

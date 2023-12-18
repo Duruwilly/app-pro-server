@@ -113,10 +113,10 @@ export const markAsReadMessage = async (messageIds, receiverId) => {
       },
       { $set: { isRead: true } }
     );
-    if (updateResult.acknowledged) {
-      console.log("Messages marked as read");
-    } else {
-      console.log("Failed to mark messages as read");
-    }
+    // if (updateResult.acknowledged) {
+    //   console.log("Messages marked as read");
+    // } else {
+    //   console.log("Failed to mark messages as read");
+    // }
   } catch (error) {}
 };

@@ -93,3 +93,26 @@ export const getContact = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const getContactImage = async (req, res, next) => {
+  try {
+    const { phoneNumbers } = req.body;
+
+    const formatPhoneNumbers = phoneNumbers.map((number) =>
+      number.replace(/\s/g, "")
+    );
+
+    const users = await Users.find({
+      mobileNumber: { $in: formatPhoneNumbers },
+    });
+
+    const contactImages = users.map((user) => ({
+      phoneNumber: user.mobileNumber,
+      contactImage: user.userImage,
+    }));
+
+    res.status(200).json({ data: contactImages });
+  } catch (error) {
+    return next(error);
+  }
+};
