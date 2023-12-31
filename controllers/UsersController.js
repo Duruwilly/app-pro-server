@@ -32,8 +32,8 @@ export const updateUser = async (req, res, next) => {
       console.log("res", result);
       imageUri = result?.secure_url;
     } catch (error) {
-      // return next(error);
-      console.log("errorhere", error);
+      return next(error);
+      // console.log("errorhere", error);
     }
     const updateUser = await Users.findByIdAndUpdate(
       req?.params?.id,
