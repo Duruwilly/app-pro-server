@@ -8,6 +8,7 @@ import {
 import Users from "../models/Users.js";
 import { encryptMessage, getUserPushTokens } from "../utils/helpers.js";
 import { sendPushNotification } from "../utils/pushNotification.js";
+import Messages from "../models/Messages.js";
 
 const configureSocketIO = (httpServer) => {
   const io = new Server(httpServer, {
@@ -206,6 +207,28 @@ const configureSocketIO = (httpServer) => {
             }
           } catch (error) {}
         }
+      }
+    );
+
+    // notify both users for message that was removed by the sender
+    socket?.on(
+      "removeMessageForAll",
+      async ({ senderId, receiverId, uniqueMessageId }) => {
+        const receiver = getUser(receiverId);
+        const sender = getUser(senderId);
+        try {
+          const messages = await Messages.find({
+            uniqueMessageId,
+            receiverId,
+          });
+          io.to(sender.socketId).emit("getUpdatedMessage", {
+            messages,
+          });
+
+          io.to(receiver.socketId).emit("getUpdatedMessage", {
+            messages,
+          });
+        } catch (error) {}
       }
     );
 

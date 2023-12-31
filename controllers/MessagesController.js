@@ -19,7 +19,7 @@ export const getReceivedMessages = async (req, res, next) => {
     const receivedMessages = await Messages.find({
       receiverId: id,
       isMessageReceived: true,
-    }).sort({ createdAt: 1 });
+    });
     // console.log(receivedMessages);
     return res.status(200).json({ status: "success", data: receivedMessages });
   } catch (error) {
@@ -34,7 +34,7 @@ export const getSentMessages = async (req, res, next) => {
     const sentMessages = await Messages.find({
       senderId: id,
       isMessageSent: true,
-    }).sort({ createdAt: 1 });
+    });
     return res.status(200).json({ status: "success", data: sentMessages });
   } catch (error) {
     return next(error);
@@ -75,32 +75,35 @@ export const deleteMessages = async (
     return res
       .status(200)
       .json({ status: "success", message: "messages deleted" });
-  } catch (error) {}
+  } catch (error) {
+    return next(error);
+  }
 };
 
 // function to delete a message
 export const deleteMessage = async (req, res, next) => {
   try {
-    const messageId = req.params.messageId;
-    const userId = req.params.id;
+    // const messageId = req.params.messageId;
+    // const userId = req.params.id;
+    const { messageId, id } = req.params;
 
     await Messages.deleteOne({
       $or: [
-        { uniqueMessageId: messageId, isMessageSent: true, senderId: userId },
+        { uniqueMessageId: messageId, isMessageSent: true, senderId: id },
         {
           uniqueMessageId: messageId,
           isMessageReceived: true,
-          receiverId: userId,
+          receiverId: id,
         },
       ],
     });
-    // console.log(test);
-    // const messageToDelete = await Messages.findById(req.params.messageId);
 
     return res
       .status(200)
       .json({ status: "success", message: "message deleted" });
-  } catch (error) {}
+  } catch (error) {
+    return next(error);
+  }
 };
 
 // mark as read message func
@@ -119,4 +122,20 @@ export const markAsReadMessage = async (messageIds, receiverId) => {
     //   console.log("Failed to mark messages as read");
     // }
   } catch (error) {}
+};
+
+// remove messages for all
+export const removeMessageForAll = async (req, res, next) => {
+  try {
+    const { messageId, receiverId } = req.params;
+    await Messages.deleteMany({
+      uniqueMessageId: messageId,
+      receiverId,
+    });
+    return res
+      .status(200)
+      .json({ status: "success", message: "message removed" });
+  } catch (error) {
+    return next(error);
+  }
 };
