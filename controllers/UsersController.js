@@ -25,12 +25,15 @@ export const getUser = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   try {
     const photoUrls = req?.file ? req?.file : undefined;
+    console.log("photo", photoUrls);
     let imageUri = "";
     try {
       const result = await cloudinary?.uploader?.upload(photoUrls?.path);
+      console.log("res", result);
       imageUri = result?.secure_url;
     } catch (error) {
       // return next(error);
+      console.log("errorhere", error);
     }
     const updateUser = await Users.findByIdAndUpdate(
       req?.params?.id,

@@ -1,7 +1,7 @@
 import Contacts from "../models/Contacts.js";
 import Users from "../models/Users.js";
 import { CustomError } from "../utils/helpers.js";
-import { deleteMessages } from "./MessagesController.js";
+// import { deleteMessages } from "./MessagesController.js";
 
 export const addContact = async (req, res, next) => {
   const newContact = new Contacts(req.body);

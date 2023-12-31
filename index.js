@@ -32,7 +32,7 @@ app.use("/api/messages", usersMessages);
 app.use("/api/transactions", transactionsRoutes);
 
 app.use((err, req, res, next) => {
-  // console.log(err);
+  console.log(err);
   const errorStatus = err.status || 500;
   const errorMessage = err?.message || "something went wrong";
   return res?.status(errorStatus).json({
