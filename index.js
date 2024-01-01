@@ -32,7 +32,7 @@ app.use("/api/messages", usersMessages);
 app.use("/api/transactions", transactionsRoutes);
 
 app.use((err, req, res, next) => {
-  console.log(err);
+  // console.log(err);
   const errorStatus = err.status || 500;
   const errorMessage = err?.message || "something went wrong";
   return res?.status(errorStatus).json({
@@ -41,6 +41,13 @@ app.use((err, req, res, next) => {
     message: errorMessage,
   });
 });
+
+console.log(
+  "inside index",
+  process.env.CLOUDINARY_NAME,
+  process.env.CLOUDINARY_KEY,
+  process.env.CLOUDINARY_SECRET
+);
 
 configureSocketIO(server);
 
