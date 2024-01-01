@@ -37,6 +37,7 @@ export const updateUser = async (req, res, next) => {
       const result = await cloudinary?.uploader?.upload(photoUrls?.path);
       imageUri = result?.secure_url;
     } catch (error) {
+      console.log("up", error);
       return next(error);
     }
     const updateUser = await Users.findByIdAndUpdate(
@@ -60,6 +61,7 @@ export const updateUser = async (req, res, next) => {
       data: otherDetails,
     });
   } catch (error) {
+    console.log("down", error);
     return next(error);
   }
 };
