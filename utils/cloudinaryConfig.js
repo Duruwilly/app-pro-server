@@ -11,6 +11,8 @@ cloudinaryV2.config({
   secure: true,
 });
 
+// console.log(cloudinaryV2.config());
+
 export const storage = new CloudinaryStorage({
   cloudinary: cloudinaryV2,
   params: {
