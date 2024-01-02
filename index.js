@@ -19,7 +19,7 @@ const server = createServer(app);
 const port = process.env.PORT || 8080;
 // const socketPort = process.env.SOCKET_PORT || 8200;
 
-// app.use(cors());
+app.use(cors());
 app.use(cookieParser()); // Middleware to parse cookies sent by the client in the HTTP request headers
 app.use(express.json()); //  Middleware to parse JSON data from incoming requests
 app.use(express.urlencoded({ extended: false })); // Middleware to parse URL-encoded data from incoming requests e.g to handle a POST request with URL-encoded form data

@@ -25,7 +25,6 @@ export const getUser = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   try {
     const photoUrls = req?.file ? req?.file : undefined;
-    console.log("hello", photoUrls);
     let imageUri = "";
     try {
       const result = await cloudinary?.uploader?.upload(photoUrls?.path);
