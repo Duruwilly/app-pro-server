@@ -10,13 +10,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-console.log(
-  "inside users",
-  process.env.CLOUDINARY_NAME,
-  process.env.CLOUDINARY_KEY,
-  process.env.CLOUDINARY_SECRET
-);
-
 // get user
 export const getUser = async (req, res, next) => {
   try {
@@ -32,12 +25,13 @@ export const getUser = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   try {
     const photoUrls = req?.file ? req?.file : undefined;
+    console.log("hello", photoUrls);
     let imageUri = "";
     try {
       const result = await cloudinary?.uploader?.upload(photoUrls?.path);
       imageUri = result?.secure_url;
     } catch (error) {
-      console.log("up", error);
+      // console.log("up", error);
       return next(error);
     }
     const updateUser = await Users.findByIdAndUpdate(
@@ -61,7 +55,7 @@ export const updateUser = async (req, res, next) => {
       data: otherDetails,
     });
   } catch (error) {
-    console.log("down", error);
+    // console.log("down", error);
     return next(error);
   }
 };
