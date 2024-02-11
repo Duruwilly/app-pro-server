@@ -1,8 +1,5 @@
 import express from "express";
 import { createServer } from "http";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import cors from "cors";
 import connectDB from "./db/db.js";
 import configureSocketIO from "./socket/socketConnections.js";
 import userAuthRoutes from "./routes/userAuth.js";
@@ -10,6 +7,9 @@ import usersRoutes from "./routes/users.js";
 import usersContactRoute from "./routes/usersContacts.js";
 import usersMessages from "./routes/usersMessages.js";
 import transactionsRoutes from "./routes/transactions.js";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 dotenv.config();
 
