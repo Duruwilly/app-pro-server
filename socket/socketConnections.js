@@ -55,17 +55,34 @@ const configureSocketIO = (httpServer) => {
             receiverSocketId = receiver?.socketId;
 
             // get the receiver push token
-            const receiverToken = await getUserPushTokens(receiverId);
+            const receiverTokens = await getUserPushTokens(receiverId);
             // Encrypt the message
             const encryptedMessage = encryptMessage(message);
 
             // for push notification
-            sendPushNotification({
-              to: receiverToken.join(" "),
-              sound: "default",
-              title: sender?.name,
-              body: message,
-            });
+            // sendPushNotification({
+            //   to: receiverToken,
+            //   sound: "default",
+            //   title: sender?.name,
+            //   body: message,
+            // });
+
+            // Send push notification for each token
+            for (const receiverToken of receiverTokens) {
+              try {
+                await sendPushNotification({
+                  to: receiverToken,
+                  sound: "default",
+                  title: sender?.name,
+                  body: encryptedMessage,
+                });
+              } catch (error) {
+                //  console.error(
+                //    `Error sending push notification to ${receiverToken}:`,
+                //    error
+                //  );
+              }
+            }
 
             // emit to the receiver
             if (sender) {
