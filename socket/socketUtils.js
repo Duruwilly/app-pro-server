@@ -1,5 +1,5 @@
 let usersMessages = [];
-// add the user to usersMessages array when a new user connect or login from the frontend
+// add the user to usersMessages array when a user has not been added or a new user connect or login from the frontend
 export const addNewUsers = (userID, socketId) => {
   if (!usersMessages.some((user) => user.userID === userID)) {
     usersMessages.push({
