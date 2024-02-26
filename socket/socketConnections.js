@@ -56,13 +56,12 @@ const configureSocketIO = (httpServer) => {
 
             // get the receiver push token
             const receiverToken = await getUserPushTokens(receiverId);
-            console.log(receiverToken);
             // Encrypt the message
             const encryptedMessage = encryptMessage(message);
 
             // for push notification
             sendPushNotification({
-              to: receiverToken,
+              to: "ExponentPushToken[i9Hl5bDQyscMH8nVhmFzCh]",
               sound: "default",
               title: sender?.name,
               body: message,
