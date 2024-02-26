@@ -67,14 +67,34 @@ export const sendEmail = async (options) => {
   await transporter.sendMail(mailOptions);
 };
 
+// export const addPushToken = async (userId, pushToken) => {
+//   try {
+//     const user = await Users.findById(userId);
+//     if (user) {
+//       user.pushTokens.push(pushToken);
+//       await user.save();
+//     }
+//   } catch (error) {}
+// };
+
 export const addPushToken = async (userId, pushToken) => {
   try {
     const user = await Users.findById(userId);
     if (user) {
+      // Remove null or undefined values from the pushTokens array
+      user.pushTokens = user.pushTokens.filter(
+        (token) => token !== null && token !== undefined
+      );
+
+      // Push the new token
       user.pushTokens.push(pushToken);
+
+      // Save the user
       await user.save();
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const removePushToken = async (req, res, next) => {
