@@ -74,9 +74,7 @@ export const addPushToken = async (userId, pushToken) => {
       user.pushTokens.push(pushToken);
       await user.save();
     }
-  } catch (error) {
-    // Handle errors
-  }
+  } catch (error) {}
 };
 
 export const removePushToken = async (req, res, next) => {
@@ -104,7 +102,6 @@ export const getUserPushTokens = async (userId) => {
     }
     return [];
   } catch (error) {
-    // Handle errors
     return [];
   }
 };
