@@ -69,19 +69,19 @@ const configureSocketIO = (httpServer) => {
 
             // Send push notification for each token
             for (const receiverToken of receiverTokens) {
-              try {
-                await sendPushNotification({
-                  to: receiverToken,
-                  sound: "default",
-                  title: sender?.name,
-                  body: message,
-                });
-              } catch (error) {
-                //  console.error(
-                //    `Error sending push notification to ${receiverToken}:`,
-                //    error
-                //  );
-              }
+              // try {
+              sendPushNotification({
+                to: receiverToken,
+                sound: "default",
+                title: sender?.name,
+                body: message,
+              });
+              // } catch (error) {
+              //  console.error(
+              //    `Error sending push notification to ${receiverToken}:`,
+              //    error
+              //  );
+              // }
             }
 
             // emit to the receiver
