@@ -74,7 +74,7 @@ const configureSocketIO = (httpServer) => {
                   to: receiverToken,
                   sound: "default",
                   title: sender?.name,
-                  body: encryptedMessage,
+                  body: message,
                 });
               } catch (error) {
                 //  console.error(
