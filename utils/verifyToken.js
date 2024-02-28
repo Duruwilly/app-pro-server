@@ -27,7 +27,7 @@ export const verifyToken = async (req, res, next) => {
         body: "Another device has logged your account",
       });
 
-      return next(new CustomError("unauthorized", 403));
+      return next(new CustomError("unathenticated", 401));
     }
     req.user = user;
     next();
