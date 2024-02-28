@@ -7,6 +7,7 @@ export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   // console.log(req.headers.device_token);
   const pushToken = req.headers.device_token;
+  console.log("here", pushToken);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return next(new CustomError("unathenticated", 401));
   }
