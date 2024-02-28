@@ -6,7 +6,7 @@ import { sendPushNotification } from "./pushNotification.js";
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   // console.log(req.headers.device_token);
-  const pushToken = req.headers.device_Token;
+  const pushToken = req.headers;
   console.log("here", pushToken);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return next(new CustomError("unathenticated", 401));
@@ -18,17 +18,17 @@ export const verifyToken = async (req, res, next) => {
     if (err) return next(new CustomError("token is invalid", 401));
 
     const userCheck = await Users.findById(user.id);
-    console.log("oldTokenAtVerify", userCheck.pushTokens[0], pushToken);
-    if (userCheck.pushTokens[0] !== pushToken) {
-      sendPushNotification({
-        to: userCheck.pushTokens[0],
-        sound: "default",
-        title: "You've been logged out",
-        body: "Another device has logged your account",
-      });
+    // console.log("oldTokenAtVerify", userCheck.pushTokens[0], pushToken);
+    // if (userCheck.pushTokens[0] !== pushToken) {
+    //   sendPushNotification({
+    //     to: userCheck.pushTokens[0],
+    //     sound: "default",
+    //     title: "You've been logged out",
+    //     body: "Another device has logged your account",
+    //   });
 
-      return next(new CustomError("unathenticated", 401));
-    }
+    //   return next(new CustomError("unathenticated", 401));
+    // }
     req.user = user;
     next();
   });
