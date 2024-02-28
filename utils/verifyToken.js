@@ -15,9 +15,9 @@ export const verifyToken = async (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, user) => {
     if (err) return next(new CustomError("token is invalid", 401));
-    console.log("oldTokenAtVerify", userCheck.pushTokens[0], pushToken);
 
     const userCheck = await Users.findById(user.id);
+    console.log("oldTokenAtVerify", userCheck.pushTokens[0], pushToken);
     if (userCheck.pushTokens[0] !== pushToken) {
       sendPushNotification({
         to: userCheck.pushTokens[0],
