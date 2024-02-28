@@ -18,7 +18,7 @@ export const verifyToken = async (req, res, next) => {
     if (err) return next(new CustomError("token is invalid", 401));
 
     const userCheck = await Users.findById(user.id);
-    // console.log("oldTokenAtVerify", userCheck.pushTokens[0], pushToken);
+    console.log("oldTokenAtVerify", userCheck.pushTokens[0], pushToken);
     // if (userCheck.pushTokens[0] !== pushToken) {
     //   sendPushNotification({
     //     to: userCheck.pushTokens[0],
