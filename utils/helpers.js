@@ -132,14 +132,15 @@ export const detectMultipleLogins = async (userId, newPushToken) => {
   try {
     const user = await Users.findById(userId);
     const oldPushToken = user.pushTokens.join(" ");
-    console.log("oldOut", oldPushToken, newPushToken);
+    console.log("oldOut", oldPushToken);
     console.log("newtoken", newPushToken);
     if (user) {
       if (oldPushToken !== newPushToken) {
         user.pushTokens = [];
         // user.a
 
-        console.log("oldIn", oldPushToken, newPushToken);
+        console.log("oldIn", oldPushToken);
+        console.log("newIn", newPushToken);
         user.pushTokens.push(newPushToken);
 
         // sendPushNotification({
