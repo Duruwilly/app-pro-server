@@ -77,14 +77,15 @@ export const sendEmail = async (options) => {
 //   } catch (error) {}
 // };
 
-export const addPushToken = async (userId, pushToken) => {
+export const addPushTokenOnLogin = async (userId, pushToken) => {
   try {
     const user = await Users.findById(userId);
     if (user) {
       // Remove null or undefined values from the pushTokens array
-      user.pushTokens = user.pushTokens.filter(
-        (token) => token !== null && token !== undefined
-      );
+      // user.pushTokens = user.pushTokens.filter(
+      //   (token) => token !== null && token !== undefined
+      // );
+      user.pushTokens = user.pushTokens.filter((token) => token !== null);
 
       // Push the new token
       user.pushTokens.push(pushToken);
@@ -97,13 +98,14 @@ export const addPushToken = async (userId, pushToken) => {
   }
 };
 
-export const removePushToken = async (req, res, next) => {
+export const clearPushTokensOnLogout = async (req, res, next) => {
   try {
     const user = await Users.findById(req.body.userId);
     if (user) {
-      user.pushTokens = user.pushTokens.filter(
-        (token) => token !== req.body.pushToken
-      );
+      // user.pushTokens = user.pushTokens.filter(
+      //   (token) => token !== req.body.pushToken
+      // );
+      user.pushTokens = [];
       await user.save();
       return res.status(201).json({
         status: "success",
@@ -124,4 +126,30 @@ export const getUserPushTokens = async (userId) => {
   } catch (error) {
     return [];
   }
+};
+
+export const detectMultipleLogins = async (userId, newPushToken) => {
+  try {
+    const user = await Users.findById(userId);
+    const oldPushToken = user.pushTokens.join(" ");
+    console.log("oldOut", oldPushToken, newPushToken);
+    if (user) {
+      if (oldPushToken !== newPushToken) {
+        user.pushTokens = [];
+        // user.a
+
+        console.log("oldIn", oldPushToken, newPushToken);
+        user.pushTokens.push(newPushToken);
+
+        // sendPushNotification({
+        //   to: oldPushToken,
+        //   sound: "default",
+        //   title: "You've been logged out",
+        //   body: "Another device has logged your account",
+        // });
+      }
+
+      await user.save();
+    }
+  } catch (error) {}
 };

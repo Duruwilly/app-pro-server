@@ -4,7 +4,8 @@ import bcrypt from "bcryptjs";
 import Users from "../models/Users.js";
 import {
   CustomError,
-  addPushToken,
+  addPushTokenOnLogin,
+  detectMultipleLogins,
   validatePassword,
 } from "../utils/helpers.js";
 
@@ -54,7 +55,7 @@ export const register = async (req, res, next) => {
       process.env.JWT_REFRESH_SECRET_KEY
     );
     newUser.refreshToken = refreshToken;
-    addPushToken(newUser._id, req.body.pushTokens);
+    addPushTokenOnLogin(newUser._id, req.body.pushTokens);
     await newUser.save();
 
     return res.status(201).json({
@@ -104,7 +105,8 @@ export const login = async (req, res, next) => {
     //   })
     //   .status(200)
     //   .json({ msg: "logged in successfully", ...otherDetails });
-    await addPushToken(user._id, req?.body?.pushTokens);
+    await addPushTokenOnLogin(user._id, req?.body?.pushTokens);
+    await detectMultipleLogins(user._id, req?.body?.pushTokens);
     return res.status(200).json({
       status: "success",
       message: "logged in successfully",
