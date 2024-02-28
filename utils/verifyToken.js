@@ -19,16 +19,17 @@ export const verifyToken = async (req, res, next) => {
 
     const userCheck = await Users.findById(user.id);
     console.log("oldTokenAtVerify", userCheck.pushTokens[0], pushToken);
-    // if (userCheck.pushTokens[0] !== pushToken) {
-    //   sendPushNotification({
-    //     to: userCheck.pushTokens[0],
-    //     sound: "default",
-    //     title: "You've been logged out",
-    //     body: "Another device has logged your account",
-    //   });
+    if (userCheck.pushTokens[0] !== pushToken) {
+      console.log("hello");
+      sendPushNotification({
+        to: userCheck.pushTokens[0],
+        sound: "default",
+        title: "You've been logged out",
+        body: "Another device has logged your account",
+      });
 
-    //   return next(new CustomError("unathenticated", 401));
-    // }
+      return next(new CustomError("unathenticated", 401));
+    }
     req.user = user;
     next();
   });
