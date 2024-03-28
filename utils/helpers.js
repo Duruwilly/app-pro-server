@@ -77,6 +77,7 @@ export const sendEmail = async (options) => {
 //   } catch (error) {}
 // };
 
+// add the user push token to their profile
 export const addPushTokenOnLogin = async (userId, pushToken) => {
   try {
     const user = await Users.findById(userId);
@@ -98,6 +99,7 @@ export const addPushTokenOnLogin = async (userId, pushToken) => {
   }
 };
 
+// delete the push token after the user has logged out
 export const clearPushTokensOnLogout = async (req, res, next) => {
   try {
     const user = await Users.findById(req.body.userId);
@@ -116,6 +118,7 @@ export const clearPushTokensOnLogout = async (req, res, next) => {
   }
 };
 
+// NOT USED YET
 export const getUserPushTokens = async (userId) => {
   try {
     const user = await Users.findById(userId);
@@ -128,6 +131,7 @@ export const getUserPushTokens = async (userId) => {
   }
 };
 
+// detect the same user trying to login on multiple device but would still need to be worked on
 export const detectMultipleLogins = async (userId, newPushToken) => {
   try {
     const user = await Users.findById(userId);

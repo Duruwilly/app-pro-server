@@ -105,8 +105,8 @@ export const login = async (req, res, next) => {
     //   })
     //   .status(200)
     //   .json({ msg: "logged in successfully", ...otherDetails });
-    await addPushTokenOnLogin(user._id, req?.body?.pushTokens);
-    await detectMultipleLogins(user._id, req?.body?.pushTokens);
+    await addPushTokenOnLogin(user._id, req?.body?.pushTokens); // add the user push token to their profile
+    await detectMultipleLogins(user._id, req?.body?.pushTokens); // trying to detect multiple login of the same user
     return res.status(200).json({
       status: "success",
       message: "logged in successfully",
